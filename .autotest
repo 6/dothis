@@ -1,0 +1,12 @@
+require 'autotest/bundler'
+
+begin
+  require 'autotest/growl'
+rescue LoadError
+end
+
+Autotest.add_hook(:initialize) do |at|
+  at.add_exception %r{coverage}
+  at.add_exception %r{log}
+  at.add_exception %r{tmp}
+end
