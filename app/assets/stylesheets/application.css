@@ -11,3 +11,10 @@
  *= require_self
  *= require_tree .
  */
+a {
+  color: #9ac;
+  text-decoration: none;
+}
+a.active {
+  color: #249;
+}
