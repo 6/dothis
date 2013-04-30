@@ -1,0 +1,21 @@
+!!! 5
+%html
+  %head
+    %title Do this
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body{:class => "#{controller_name} #{controller_name}-#{action_name}"}
+    .header
+      - if current_user
+        = link_to_active "Home", root_path
+        = link_to "Logout", logout_path
+      - else
+        = link_to_active "Home", root_path
+        = link_to_active "Login", login_path
+        = link_to_active "Sign Up", signup_path
+
+    .flash
+      - if flash[:error]
+        .flash-error= flash[:error]
+    .main= yield
