@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :username, :password
   has_secure_password
 
+  has_many :tasks, :inverse_of => :user
+
   before_create :generate_auth_token
 
   validates_uniqueness_of :auth_token

@@ -14,4 +14,9 @@ FactoryGirl.define do
     sequence(:username) { |n| "user#{n}" }
     password "abcdef"
   end
+
+  factory :task do
+    user
+    sequence(:title) { |n| "task #{n}" }
+  end
 end
