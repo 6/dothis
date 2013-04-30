@@ -1,0 +1,15 @@
+%h1 Sign up
+
+= form_for @user do |f|
+  - if @user.errors.any?
+    %ul.form-errors
+      - @user.errors.full_messages.each do |message|
+        - next  if message.match(/password digest/i)
+        %li= message
+  .form-label= f.label :email
+  .form-field= f.text_field :email
+  .form-label= f.label :username
+  .form-field= f.text_field :username
+  .form-label= f.label :password
+  .form-field= f.password_field :password
+  .form-action= f.submit "Sign up", :disable_with => "Submitting..."
