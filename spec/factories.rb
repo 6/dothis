@@ -8,4 +8,10 @@ FactoryGirl.define do
   sequence :random_string do |n|
     rand(10**10).to_s
   end
+
+  factory :user do
+    sequence(:email) { |n| "user#{n}@example.com" }
+    sequence(:username) { |n| "user#{n}" }
+    password "abcdef"
+  end
 end
