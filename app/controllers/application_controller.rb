@@ -44,4 +44,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from ActiveRecord::RecordNotFound do
+    render text: "404 not found", status: 404
+  end
 end

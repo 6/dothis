@@ -6,5 +6,7 @@ Dothis::Application.routes.draw do
   resources :users
   resources :sessions
 
+  get '/:username' => 'users#show'
+
   root :to => 'users#index'
 end

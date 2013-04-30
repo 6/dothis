@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    # TODO
+    @user = User.find_by_username!(params[:username])
   end
 
   def new

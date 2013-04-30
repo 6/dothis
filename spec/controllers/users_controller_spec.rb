@@ -74,5 +74,28 @@ describe UsersController do
         end
       end
     end
+
+    describe "GET #show" do
+      context "with an existing username" do
+        before { FactoryGirl.create(:user, username: "valid_user") }
+
+        it "returns 200" do
+          get :show, :username => "valid_user"
+          response.should be_ok
+        end
+
+        it "renders the :show template" do
+          get :show, :username => "valid_user"
+          response.should render_template(:show)
+        end
+      end
+
+      context "with a non-existing username" do
+        it "returns 404" do
+          get :show, :username => "invalid_user"
+          response.should be_not_found
+        end
+      end
+    end
   end
 end
