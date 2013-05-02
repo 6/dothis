@@ -1,0 +1,10 @@
+@mixin font-primary {
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+@mixin font-secondary {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+}
