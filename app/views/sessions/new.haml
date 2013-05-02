@@ -5,6 +5,6 @@
   .form-field= text_field_tag :email_or_username, params[:email_or_username]
   = label_tag :password
   .form-field= password_field_tag :password
-  .form-actions= submit_tag "Login", :disable_with => "Submitting..."
+  .form-actions= submit_tag "Login", :disable_with => "Submitting...", :class => "btn"
   = check_box_tag :remember_me, "1", true
   = label_tag :remember_me
