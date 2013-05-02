@@ -6,14 +6,17 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body{:class => "#{controller_name} #{controller_name}-#{action_name}"}
-    .header
-      = link_to_active "Home", root_path
-      - if current_user
-        = link_to_active current_user.username, profile_path(current_user.username)
-        = link_to "Logout", logout_path
-      - else
-        = link_to_active "Login", login_path
-        = link_to_active "Sign Up", signup_path
+    .navbar
+      .navbar-inner
+        = link_to "Do this", root_path, :class => "brand"
+        %ul.nav
+          - if current_user
+            = link_to_active current_user.username, profile_path(current_user.username), :parent => :li
+            %li
+              = link_to "Logout", logout_path
+          - else
+            = link_to_active "Login", login_path, :parent => :li
+            = link_to_active "Sign Up", signup_path, :parent => :li
 
     .flash
       - if flash[:error]
