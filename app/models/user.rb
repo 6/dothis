@@ -13,22 +13,32 @@ class User < ActiveRecord::Base
   validates :username, :format => {:with => /^[-_a-zA-Z0-9]+$/}, :length => {:minimum => 1, :maximum => 30}
   validates :password, :length => {:minimum => 6}
 
-  def tasks_completed_by_day
-    # TODO - fix groupdate gem so it can use user.tasks
-    Task
-      .where(:user_id => id)
-      .where('completed_at IS NOT NULL')
-      .group_by_day(:completed_at)
-      .order('day ASC')
-      .count.map do |date, count|
+  def tasks_completed_by_day_as_json
+    by_day = tasks_completed_by_day
+    (1.year.ago.to_date..Date.today).map do |date|
+      date_string = date.strftime("%Y-%m-%d")
       {
-        date: Date.parse(date).strftime("%Y-%m-%d"),
-        count: count,
+        date: date_string,
+        count: by_day[date_string] || 0,
       }
     end
   end
 
   private
+
+  def tasks_completed_by_day
+    # TODO - fix groupdate gem so it can use user.tasks
+    by_day = {}
+    Task
+      .where(:user_id => id)
+      .where('completed_at IS NOT NULL')
+      .group_by_day(:completed_at)
+      .order('day ASC')
+      .count.each do |date, count|
+        by_day[Date.parse(date).strftime("%Y-%m-%d")] = count
+      end
+    by_day
+  end
 
   def generate_auth_token
     self.auth_token = SecureRandom.urlsafe_base64(180)

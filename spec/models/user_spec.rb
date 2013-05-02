@@ -57,12 +57,62 @@ describe User do
     end
   end
 
+  describe "#tasks_completed_by_day_as_json" do
+    subject { FactoryGirl.create(:user) }
+
+    shared_examples "tasks_completed_by_day_as_json" do
+      it "returns an array of size 365" do
+        subject.tasks_completed_by_day_as_json.should be_a(Array)
+        subject.tasks_completed_by_day_as_json.size.should == 365
+      end
+
+      it "formats dates in YYYY-MM-DD format" do
+        subject.tasks_completed_by_day_as_json.each do |day|
+          day[:date].should match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)
+        end
+      end
+
+      it "has a count of >= 0 for each day" do
+        subject.tasks_completed_by_day_as_json.each do |day|
+          day[:count].should be >= 0
+        end
+      end
+    end
+
+    context "user has no tasks" do
+      it_behaves_like "tasks_completed_by_day_as_json"
+
+      it "has a count of 0 for every day" do
+        subject.tasks_completed_by_day_as_json.each do |day|
+          day[:count].should == 0
+        end
+      end
+    end
+
+    context "user has tasks" do
+      before do
+        subject.tasks.create!(title: "incomplete task")
+        subject.tasks.create!(title: "completed 1 day ago", completed_at: 1.day.ago)
+        subject.tasks.create!(title: "completed 1 day ago", completed_at: 1.day.ago)
+        subject.tasks.create!(title: "completed 3 days ago", completed_at: 3.days.ago)
+      end
+
+      it_behaves_like "tasks_completed_by_day_as_json"
+
+      it "has the correct counts for days on which tasks were completed" do
+        json = subject.tasks_completed_by_day_as_json
+        json[-1][:count].should == 2
+        json[-3][:count].should == 1
+      end
+    end
+  end
+
   describe "#tasks_completed_by_day" do
     let(:user) { FactoryGirl.create(:user) }
 
     context "user has no tasks" do
-      it "returns an empty array" do
-        user.tasks_completed_by_day.should == []
+      it "returns an empty hash" do
+        user.send(:tasks_completed_by_day).should == {}
       end
     end
 
@@ -75,10 +125,10 @@ describe User do
       end
 
       it "returns the expected array of completed tasks" do
-        user.tasks_completed_by_day.should == [
-          {date: "#{3.days.ago.strftime("%Y-%m-%d")}", count: 1},
-          {date: "#{1.day.ago.strftime("%Y-%m-%d")}", count: 2}
-        ]
+        user.send(:tasks_completed_by_day).should == {
+          "#{3.days.ago.strftime("%Y-%m-%d")}" => 1,
+          "#{1.day.ago.strftime("%Y-%m-%d")}" => 2,
+        }
       end
     end
   end
