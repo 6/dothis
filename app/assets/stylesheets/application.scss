@@ -1,0 +1,16 @@
+//= require vendor
+@import "compass/utilities";
+@import "compass/reset";
+@import "variables";
+@import "bootstrap";
+@import "mixins";
+
+// Reusable components go in ./components
+@import "components/*";
+
+@import "layouts/*";
+
+// Page-specific code goes in ./pages
+// Note: with the following glob approach to importing pages, you should ensure
+// that this CSS is order-agnostic.
+@import "pages/*";

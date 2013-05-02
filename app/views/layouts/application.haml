@@ -7,15 +7,15 @@
     = csrf_meta_tags
   %body{:class => "#{controller_name} #{controller_name}-#{action_name}"}
     .header
+      = link_to_active "Home", root_path
       - if current_user
-        = link_to_active "Home", root_path
+        = link_to_active current_user.username, profile_path(current_user.username)
         = link_to "Logout", logout_path
       - else
-        = link_to_active "Home", root_path
         = link_to_active "Login", login_path
         = link_to_active "Sign Up", signup_path
 
     .flash
       - if flash[:error]
         .flash-error= flash[:error]
-    .main= yield
+    = yield
