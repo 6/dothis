@@ -9,6 +9,7 @@
     .header
       - if current_user
         = link_to_active "Home", root_path
+        = link_to_active current_user.username, profile_path(current_user.username)
         = link_to "Logout", logout_path
       - else
         = link_to_active "Home", root_path
