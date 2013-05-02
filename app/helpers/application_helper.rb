@@ -9,6 +9,11 @@ module ApplicationHelper
       options[:class] ||= ""
       options[:class] += " active"
     end
-    link_to text, path, options
+    if parent = options[:parent]
+      options.delete(:parent)
+      content_tag parent, link_to(text, path), options
+    else
+      link_to text, path, options
+    end
   end
 end
