@@ -1,7 +1,7 @@
 %h1 Login
 
 = form_tag sessions_path do
-  = label_tag :email_or_username
+  %label{:for => "email_or_username"} Email or Username
   .form-field= text_field_tag :email_or_username, params[:email_or_username]
   = label_tag :password
   .form-field= password_field_tag :password
