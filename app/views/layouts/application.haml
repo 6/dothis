@@ -22,5 +22,5 @@
 
       .flash
         - if flash[:error]
-          .flash-error= flash[:error]
+          .alert= flash[:error]
       = yield
