@@ -56,4 +56,30 @@ describe User do
       end
     end
   end
+
+  describe "#tasks_completed_by_day" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    context "user has no tasks" do
+      it "returns an empty array" do
+        user.tasks_completed_by_day.should == []
+      end
+    end
+
+    context "user has tasks" do
+      before do
+        user.tasks.create!(title: "incomplete task")
+        user.tasks.create!(title: "completed 1 day ago", completed_at: 1.day.ago)
+        user.tasks.create!(title: "completed 1 day ago", completed_at: 1.day.ago)
+        user.tasks.create!(title: "completed 3 days ago", completed_at: 3.days.ago)
+      end
+
+      it "returns the expected array of completed tasks" do
+        user.tasks_completed_by_day.should == [
+          {date: "#{3.days.ago.strftime("%Y-%m-%d")}", count: 1},
+          {date: "#{1.day.ago.strftime("%Y-%m-%d")}", count: 2}
+        ]
+      end
+    end
+  end
 end
