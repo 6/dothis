@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   def reset_session_and_cookies
     reset_session
-    cookies[:auth_token] = nil
+    cookies.delete(:auth_token)
   end
 
   def logged_in!
