@@ -11,7 +11,7 @@ class app.TodoView extends Backbone.View
     'blur .edit': 'close'
 
   initialize: ->
-    @template = _.template($('#item-template').html())
+    @template = JST['tasks/task']
     @listenTo(@model, 'change', @render)
     @listenTo(@model, 'destroy', @remove)
 
