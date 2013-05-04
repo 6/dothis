@@ -1,0 +1,2 @@
+- if @completed
+  %button#clear-completed= "Clear completed (#{@completed})"

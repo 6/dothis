@@ -8,7 +8,7 @@ class app.AppView extends Backbone.View
     'click #clear-completed': 'clearCompleted'
 
   initialize: ->
-    @statsTemplate = _.template($('#stats-template').html())
+    @footerTemplate = JST['tasks/footer']
     @$input = this.$('#new-todo')
     @$footer = this.$('#footer')
     @$main = this.$('#main')
@@ -26,7 +26,7 @@ class app.AppView extends Backbone.View
       @$main.show()
       @$footer.show()
 
-      @$footer.html(@statsTemplate(completed: completed))
+      @$footer.html(@footerTemplate(completed: completed))
     else
       @$main.hide()
       @$footer.hide()

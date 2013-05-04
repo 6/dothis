@@ -9,25 +9,11 @@
   <footer id="footer"></footer>
 </section>
 
-<script type="text/template" id="stats-template">
-  [% if (completed) { %]
-    <button id="clear-completed">Clear completed ([%= completed %])</button>
-  [% } %]
-</script>
-
 <script>
   var app = app || {};
   var ENTER_KEY = 13;
 
   $(function () {
-    'use strict';
-
-    _.templateSettings = {
-      interpolate: /\[\%\=(.+?)\%\]/g,
-      evaluate: /\[\%(.+?)\%\]/g
-    };
-
-    // kick things off by creating the `App`
     new app.AppView();
   });
 </script>
