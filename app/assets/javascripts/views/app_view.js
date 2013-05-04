@@ -20,8 +20,7 @@ var app = app || {};
     // Delegated events for creating new items, and clearing completed ones.
     events: {
       'keypress #new-todo': 'createOnEnter',
-      'click #clear-completed': 'clearCompleted',
-      'click #toggle-all': 'toggleAllComplete'
+      'click #clear-completed': 'clearCompleted'
     },
 
     // At initialization we bind to the relevant events on the `Todos`
@@ -30,7 +29,6 @@ var app = app || {};
     initialize: function () {
       console.log("INIT APP", $('#stats-template').html());
       this.statsTemplate = _.template($('#stats-template').html());
-      this.allCheckbox = this.$('#toggle-all')[0];
       this.$input = this.$('#new-todo');
       this.$footer = this.$('#footer');
       this.$main = this.$('#main');
@@ -61,8 +59,6 @@ var app = app || {};
         this.$main.hide();
         this.$footer.hide();
       }
-
-      this.allCheckbox.checked = !remaining;
     },
 
     // Add a single todo item to the list by creating a view for it, and
@@ -106,16 +102,6 @@ var app = app || {};
     clearCompleted: function () {
       _.invoke(app.Todos.completed(), 'destroy');
       return false;
-    },
-
-    toggleAllComplete: function () {
-      var completed = this.allCheckbox.checked;
-
-      app.Todos.each(function (todo) {
-        todo.save({
-          'completed': completed
-        });
-      });
     }
   });
 })(jQuery);
