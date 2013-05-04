@@ -15,7 +15,6 @@ class app.AppView extends Backbone.View
 
     @listenTo(app.Todos, 'add', @addOne)
     @listenTo(app.Todos, 'reset', @addAll)
-    @listenTo(app.Todos, 'change:completed', @filterOne)
     @listenTo(app.Todos, 'all', @render)
 
     app.Todos.fetch()
@@ -39,9 +38,6 @@ class app.AppView extends Backbone.View
   addAll: ->
     @$('#todo-list').html('')
     app.Todos.each(@addOne, @)
-
-  filterOne: (todo) ->
-    todo.trigger('visible')
 
   newAttributes: ->
     {
