@@ -1,4 +1,5 @@
 //= require vendor
+@charset "utf-8";
 @import "compass/utilities";
 @import "compass/reset";
 @import "variables";
@@ -15,4 +16,5 @@
 // Page-specific code goes in ./pages
 // Note: with the following glob approach to importing pages, you should ensure
 // that this CSS is order-agnostic.
+@import "pages/tasks_index";
 @import "pages/users_show";
