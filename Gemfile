@@ -17,6 +17,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'compass-rails'
   gem 'bootstrap-sass', '~> 2.3.1.0'
+  gem 'execjs'
+  gem 'haml_coffee_assets'
 end
 
 group :development do
