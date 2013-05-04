@@ -140,11 +140,13 @@
   margin-left: 45px;
   display: block;
   line-height: 1.2;
+  font-size: 20px;
   -webkit-transition: color 0.4s;
   -moz-transition: color 0.4s;
   -ms-transition: color 0.4s;
   -o-transition: color 0.4s;
   transition: color 0.4s;
+  margin-bottom: 0;
 }
 
 #todo-list li.completed label {
@@ -211,4 +213,15 @@
 #clear-completed:hover {
   background: rgba(0, 0, 0, 0.15);
   box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  #toggle-all,
+  #todo-list li .toggle {
+    background: none;
+  }
+
+  #todo-list li .toggle {
+    height: 40px;
+  }
 }
