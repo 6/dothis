@@ -19,6 +19,10 @@ group :assets do
   gem 'bootstrap-sass', '~> 2.3.1.0'
 end
 
+group :development do
+  gem 'quiet_assets'
+end
+
 group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
