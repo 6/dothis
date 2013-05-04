@@ -38,7 +38,6 @@ var app = app || {};
       this.listenTo(app.Todos, 'add', this.addOne);
       this.listenTo(app.Todos, 'reset', this.addAll);
       this.listenTo(app.Todos, 'change:completed', this.filterOne);
-      this.listenTo(app.Todos, 'filter', this.filterAll);
       this.listenTo(app.Todos, 'all', this.render);
 
       app.Todos.fetch();
@@ -58,11 +57,6 @@ var app = app || {};
           completed: completed,
           remaining: remaining
         }));
-
-        this.$('#filters li a')
-          .removeClass('selected')
-          .filter('[href="#/' + (app.TodoFilter || '') + '"]')
-          .addClass('selected');
       } else {
         this.$main.hide();
         this.$footer.hide();
@@ -86,10 +80,6 @@ var app = app || {};
 
     filterOne: function (todo) {
       todo.trigger('visible');
-    },
-
-    filterAll: function () {
-      app.Todos.each(this.filterOne, this);
     },
 
     // Generate the attributes for a new Todo item.

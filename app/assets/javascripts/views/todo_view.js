@@ -32,28 +32,14 @@ var app = app || {};
       this.template = _.template($('#item-template').html());
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this  .model, 'destroy', this.remove);
-      this.listenTo(this.model, 'visible', this.toggleVisible);
     },
 
     // Re-render the titles of the todo item.
     render: function () {
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.toggleClass('completed', this.model.get('completed'));
-      this.toggleVisible();
       this.$input = this.$('.edit');
       return this;
-    },
-
-    toggleVisible: function () {
-      this.$el.toggleClass('hidden', this.isHidden());
-    },
-
-    isHidden: function () {
-      var isCompleted = this.model.get('completed');
-      return (// hidden cases only
-        (!isCompleted && app.TodoFilter === 'completed') ||
-        (isCompleted && app.TodoFilter === 'active')
-      );
     },
 
     // Toggle the `"completed"` state of the model.
