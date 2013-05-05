@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     Task
       .where(:user_id => id)
       .where('completed_at IS NOT NULL')
-      .where('completed_at >= ?', 1.year.ago)
+      .where('completed_at > ?', 1.year.ago)
       .group_by_day(:completed_at)
       .order('day ASC')
       .count.each do |date, count|
