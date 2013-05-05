@@ -3,8 +3,6 @@ window.app ?= {}
 class TodoList extends Backbone.Collection
   model: app.Todo
 
-  localStorage: new Backbone.LocalStorage('todos-backbone')
-
   # Filter down the list of all todo items that are finished.
   completed: ->
     @filter (todo) -> todo.get('completed')
