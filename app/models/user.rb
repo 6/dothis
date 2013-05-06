@@ -13,6 +13,15 @@ class User < ActiveRecord::Base
   validates :username, :format => {:with => /^[-_a-zA-Z0-9]+$/}, :length => {:minimum => 1, :maximum => 30}
   validates :password, :length => {:minimum => 6}
 
+  def completed_tasks
+    # TODO - fix groupdate gem so it can use user.tasks
+    Task.where(user_id: id).where('completed_at IS NOT NULL')
+  end
+
+  def tasks_completed_after(after_date)
+    completed_tasks.where('completed_at > ?', after_date)
+  end
+
   def tasks_completed_by_day_as_json
     by_day = tasks_completed_by_day
     (1.year.ago.to_date..Date.today).map do |date|
@@ -34,12 +43,8 @@ class User < ActiveRecord::Base
   private
 
   def tasks_completed_by_day
-    # TODO - fix groupdate gem so it can use user.tasks
     by_day = {}
-    Task
-      .where(:user_id => id)
-      .where('completed_at IS NOT NULL')
-      .where('completed_at > ?', 1.year.ago)
+    tasks_completed_after(1.year.ago)
       .group_by_day(:completed_at)
       .order('day ASC')
       .count.each do |date, count|
