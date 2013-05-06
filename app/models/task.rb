@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  attr_accessible :title, :completed_at
+  attr_accessible :title, :order, :completed_at
 
   belongs_to :user, :inverse_of => :tasks
 
@@ -15,6 +15,6 @@ class Task < ActiveRecord::Base
 
   def update_from_backbone_params(params)
     completed_at = params[:completed] ? Time.now : nil
-    update_attributes!(title: params[:title], completed_at: completed_at)
+    update_attributes!(title: params[:title], order: params[:order], completed_at: completed_at)
   end
 end
