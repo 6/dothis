@@ -10,7 +10,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    respond_with(@task = current_user.tasks.create!(params[:task]))
+    respond_with(@task = current_user.tasks.create!(params[:task]), location: nil)
   end
 
   def update
