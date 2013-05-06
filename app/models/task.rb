@@ -9,6 +9,7 @@ class Task < ActiveRecord::Base
     {
       id: id,
       title: title,
+      order: order,
       completed: !!completed_at,
     }
   end
