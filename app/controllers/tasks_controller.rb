@@ -14,6 +14,6 @@ class TasksController < ApplicationController
   end
 
   def update
-    respond_with(@task = current_user.tasks.find(params[:id]).update_from_backbone_params(params[:task]))
+    respond_with(@task = current_user.tasks.find(params[:id]).update_from_backbone_params(params))
   end
 end
