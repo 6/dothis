@@ -5,7 +5,7 @@ class Task < ActiveRecord::Base
 
   validates :title, :length => {:minimum => 1}
 
-  def as_json
+  def as_json(options = {})
     {
       id: id,
       title: title,
