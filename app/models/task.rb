@@ -5,6 +5,14 @@ class Task < ActiveRecord::Base
 
   validates :title, :length => {:minimum => 1}
 
+  def as_json
+    {
+      id: id,
+      title: title,
+      completed: !!completed_at,
+    }
+  end
+
   def update_from_backbone_params(params)
     completed_at = params[:completed] ? Time.now : nil
     update_attributes!(title: params[:title], completed_at: completed_at)

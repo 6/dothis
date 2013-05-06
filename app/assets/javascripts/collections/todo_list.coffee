@@ -1,6 +1,6 @@
 window.app ?= {}
 
-class TodoList extends Backbone.Collection
+class app.TodoList extends Backbone.Collection
   model: app.Todo
 
   url: ->
@@ -24,5 +24,3 @@ class TodoList extends Backbone.Collection
   # Todos are sorted by their original insertion order.
   comparator: (todo) ->
     todo.get('order')
-
-app.Todos = new TodoList()
