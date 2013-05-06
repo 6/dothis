@@ -17,6 +17,7 @@ class app.AppView extends Backbone.View
     @listenTo(app.Todos, 'reset', @addAll)
     @listenTo(app.Todos, 'all', @render)
     @addAll()
+    @render()
 
   render: ->
     completed = app.Todos.completed().length
