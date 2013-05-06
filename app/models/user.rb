@@ -24,6 +24,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def as_json
+    {
+      id: id,
+      username: username,
+    }
+  end
+
   private
 
   def tasks_completed_by_day

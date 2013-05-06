@@ -10,5 +10,6 @@
   var ENTER_KEY = 13;
 
   $(function () {
+    app.User = new app.User(#{current_user.as_json.to_json});
     new app.AppView();
   });
