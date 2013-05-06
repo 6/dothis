@@ -3,8 +3,9 @@ Dothis::Application.routes.draw do
   get '/login' => 'sessions#new'
   get '/logout' => 'sessions#destroy'
 
-  resources :users
-  resources :tasks
+  resources :users do
+    resources :tasks, :only => [:index, :create, :show, :update, :destroy]
+  end
   resources :sessions
 
   get '/:username' => 'users#show', :as => :profile
