@@ -3,6 +3,9 @@ window.app ?= {}
 class TodoList extends Backbone.Collection
   model: app.Todo
 
+  url: ->
+    "/users/#{app.User.get('id')}/tasks"
+
   # Filter down the list of all todo items that are finished.
   completed: ->
     @filter (todo) -> todo.get('completed')
