@@ -24,6 +24,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def as_json
+    {
+      id: id,
+      username: username,
+    }
+  end
+
   private
 
   def tasks_completed_by_day
@@ -32,7 +39,7 @@ class User < ActiveRecord::Base
     Task
       .where(:user_id => id)
       .where('completed_at IS NOT NULL')
-      .where('completed_at >= ?', 1.year.ago)
+      .where('completed_at > ?', 1.year.ago)
       .group_by_day(:completed_at)
       .order('day ASC')
       .count.each do |date, count|

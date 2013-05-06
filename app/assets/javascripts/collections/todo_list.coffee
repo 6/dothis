@@ -1,9 +1,10 @@
 window.app ?= {}
 
-class TodoList extends Backbone.Collection
+class app.TodoList extends Backbone.Collection
   model: app.Todo
 
-  localStorage: new Backbone.LocalStorage('todos-backbone')
+  url: ->
+    "/users/#{app.User.get('id')}/tasks"
 
   # Filter down the list of all todo items that are finished.
   completed: ->
@@ -23,5 +24,3 @@ class TodoList extends Backbone.Collection
   # Todos are sorted by their original insertion order.
   comparator: (todo) ->
     todo.get('order')
-
-app.Todos = new TodoList()
