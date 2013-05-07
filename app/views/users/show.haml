@@ -70,7 +70,7 @@
     svg.each(function() {
       color
           .domain(d3.values(data))
-          .range(d3.range(9));
+          .range(d3.range(0,8));
 
       d3.select(this).selectAll("rect.day")
           .attr("class", function(d) { return "day q" + color(data[d]) + "-9"; })
