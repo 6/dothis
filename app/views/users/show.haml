@@ -16,4 +16,76 @@
 
 :javascript
   var tasksCompletedByDay = JSON.parse('#{@user.tasks_completed_by_day_as_json.to_json}');
-  new TasksCompletedByDayChart({el: "#chart-tasks-completed-by-day", data: tasksCompletedByDay}).render();
+  // new TasksCompletedByDayChart({el: "#chart-tasks-completed-by-day", data: tasksCompletedByDay}).render();
+
+  var m = [29, 20, 20, 19], // top right bottom left margin
+      w = 620 - m[1] - m[3], // width
+      h = 90 - m[0] - m[2], // height
+      z = 11; // cell size
+
+  var day = d3.time.format("%w"),
+      week = d3.time.format("%U"),
+      percent = d3.format(".1%"),
+      tasksYearData,
+      formatDate = d3.time.format("%Y-%m-%d"),
+      formatNumber = d3.format(",d"),
+      formatPercent = d3.format("+.1%");
+
+  var svg = d3.select("#chart-tasks-completed-by-day")
+    .selectAll(".year")
+      .data(d3.range(2008, 2009))
+    .enter().append("div")
+      .attr("class", "year")
+      .style("width", w + m[1] + m[3] + "px")
+      .style("height", h + m[0] + m[2] + "px")
+      .style("display", "inline-block")
+    .append("svg:svg")
+      .attr("width", w + m[1] + m[3])
+      .attr("height", h + m[0] + m[2])
+      .attr("class", "PuBu")
+    .append("svg:g")
+      .attr("transform", "translate(" + (m[3] + (w - z * 53) / 2) + "," + (m[0] + (h - z * 7) / 2) + ")");
+
+  svg.append("svg:text")
+      .attr("transform", "translate(-6," + z * 3.5 + ")rotate(-90)")
+      .attr("text-anchor", "middle")
+      .text(String);
+
+  var rect = svg.selectAll("rect.day")
+      .data(function(d) { return d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+    .enter().append("svg:rect")
+      .attr("class", "day")
+      .attr("width", z)
+      .attr("height", z)
+      .attr("x", function(d) { return week(d) * z; })
+      .attr("y", function(d) { return day(d) * z; });
+
+  rect.append("svg:title");
+
+  function display(data) {
+    console.log(data);
+    var formatValue = formatNumber,
+        color = d3.scale.quantile();
+
+    svg.each(function() {
+      color
+          .domain(d3.values(data))
+          .range(d3.range(9));
+
+      d3.select(this).selectAll("rect.day")
+          .attr("class", function(d) { return "day q" + color(data[d]) + "-9"; })
+        .select("title")
+          .text(function(d) { return formatDate(d) + ": " + formatValue(data[d]); });
+    });
+  }
+
+  // TODO - don't use flight data
+  d3.csv("flights-departed.csv", function(csv) {
+    tasksYearData = d3.nest()
+        .key(function(d) { return (d.date = formatDate.parse(d.date)).getFullYear(); })
+        .key(function(d) { return d.date; })
+        .rollup(function(d) { return +d[0].value; })
+        .map(csv);
+
+    display(tasksYearData[2008]);
+  });

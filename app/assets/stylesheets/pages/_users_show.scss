@@ -1,3 +1,17 @@
 .users-show {
+}
 
+svg {
+  font-size: 10px;
+  shape-rendering: crispEdges;
+}
+.day {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: .1;
+}
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
 }
