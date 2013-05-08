@@ -8,6 +8,7 @@ gem 'bcrypt-ruby'
 gem 'haml-rails'
 gem 'newrelic_rpm'
 gem 'groupdate'
+gem 'andand'
 
 # Gems used only for assets and not required
 # in production environments by default.
