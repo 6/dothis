@@ -20,16 +20,25 @@
   var tasksCompletedByDay = JSON.parse('#{@user.tasks_completed_by_day_as_json.to_json}');
   // new TasksCompletedByDayChart({el: "#chart-tasks-completed-by-day", data: tasksCompletedByDay}).render();
 
-  var tasksAsCalendarData = [];
+  var tasksAsCalendarData = {};
   for(var i=0; i < tasksCompletedByDay.length; i++) {
     var task = tasksCompletedByDay[i];
-    tasksAsCalendarData.push([task['date'], task['count']]);
+    var d = task['date'].split("-");
+    var unixTime = new Date(d[0], d[1] - 1, d[2]).getTime()/1000;
+    tasksAsCalendarData[unixTime] = task['count'];
   }
   $(function() {
-    new Calendar({
-      append_to: 'chart-tasks-completed-by-day',
-      num_weeks: 51,
-      day_size: 11,
-      data: tasksAsCalendarData
+    var d = tasksCompletedByDay[0]['date'].split("-");
+    var startDate = new Date(d[0], d[1] - 1, d[2]);
+    var cal = new CalHeatMap();
+    cal.init({
+      id: "chart-tasks-completed-by-day",
+      data: tasksAsCalendarData,
+      domain: "month",
+      subDomain: "day",
+      range: 13,
+      cellsize: 12,
+      cellpadding: 1,
+      start: startDate
     });
   });
