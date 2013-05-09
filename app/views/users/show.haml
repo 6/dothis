@@ -29,14 +29,14 @@
   }
   $(function() {
     var d = tasksCompletedByDay[0]['date'].split("-");
-    var startDate = new Date(d[0], d[1] - 1, d[2]);
+    var startDate = new Date(d[0], d[1], d[2]);
     var cal = new CalHeatMap();
     cal.init({
       id: "chart-tasks-completed-by-day",
       data: tasksAsCalendarData,
       domain: "month",
       subDomain: "day",
-      range: 13,
+      range: 12,
       domainGutter: 5,
       weekStartOnMonday: 0,
       cellsize: 11,
