@@ -294,7 +294,7 @@ var CalHeatMap = function() {
       },
       format: {
         date: "%B %Y",
-        legend: "%B",
+        legend: "%b",
         connector: "on"
       },
       extractUnit : function(d) { return d.getMonth(); }
