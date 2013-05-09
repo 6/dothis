@@ -11,9 +11,6 @@
   .span3
     %h2= @user.tasks_completed_after(1.month.ago).count
     %h3 Past month
-  .span3
-    %h2= @user.tasks_completed_after(1.year.ago).count
-    %h3 Past year
 #chart-tasks-completed-by-day.chart
 
 :javascript
