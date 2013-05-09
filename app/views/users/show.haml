@@ -20,62 +20,16 @@
   var tasksCompletedByDay = JSON.parse('#{@user.tasks_completed_by_day_as_json.to_json}');
   // new TasksCompletedByDayChart({el: "#chart-tasks-completed-by-day", data: tasksCompletedByDay}).render();
 
-  var m = [29, 20, 20, 19], // top right bottom left margin
-      w = 620 - m[1] - m[3], // width
-      h = 90 - m[0] - m[2], // height
-      z = 11; // cell size
-
-  var day = d3.time.format("%w"),
-      week = d3.time.format("%U"),
-      percent = d3.format(".1%"),
-      tasksYearData,
-      formatDate = d3.time.format("%Y-%m-%d"),
-      formatNumber = d3.format(",d"),
-      formatPercent = d3.format("+.1%");
-
-  var tasksYearData = {};
+  var tasksAsCalendarData = [];
   for(var i=0; i < tasksCompletedByDay.length; i++) {
     var task = tasksCompletedByDay[i];
-    tasksYearData[formatDate.parse(task['date'])] = task['count'];
+    tasksAsCalendarData.push([task['date'], task['count']]);
   }
-
-  var svg = d3.select("#chart-tasks-completed-by-day")
-    .selectAll(".past-year-visualization")
-      .data([2000])
-    .enter().append("div")
-      .attr("class", "past-year-visualization")
-      .style("width", w + m[1] + m[3] + "px")
-      .style("height", h + m[0] + m[2] + "px")
-      .style("display", "inline-block")
-    .append("svg:svg")
-      .attr("width", w + m[1] + m[3])
-      .attr("height", h + m[0] + m[2])
-      .attr("class", "PuBu")
-
-  var rect = svg.selectAll("rect.day")
-      .data(_.map(Object.keys(tasksYearData), function(d){ return new Date(d); }))
-    .enter().append("svg:rect")
-      .attr("class", "day")
-      .attr("width", z)
-      .attr("height", z)
-      .attr("x", function(d) { return week(d) * z; })
-      .attr("y", function(d) { return day(d) * z; });
-
-  function display(data) {
-    console.log(data);
-    var formatValue = formatNumber,
-        color = d3.scale.quantile();
-
-    svg.each(function() {
-      color
-          .domain(d3.values(data))
-          .range(d3.range(0,8));
-
-      d3.select(this).selectAll("rect.day")
-          .attr("class", function(d) { return "day q" + color(data[d]) + "-9"; })
-        .select("title")
-          .text(function(d) { return formatDate(d) + ": " + formatValue(data[d]); });
+  $(function() {
+    new Calendar({
+      append_to: 'chart-tasks-completed-by-day',
+      num_weeks: 51,
+      day_size: 11,
+      data: tasksAsCalendarData
     });
-  }
-
-  display(tasksYearData);
+  });
