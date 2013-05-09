@@ -3,5 +3,5 @@
 #= require underscore
 #= require backbone
 #= require hamlcoffee
-#= require moof
+#= require d3
 #= require_tree .
